@@ -29,22 +29,23 @@ def createDataset(inputPath, gtFile, outputPath, checkValid=True):
     """
     Create LMDB dataset for training and evaluation.
     ARGS:
-        inputPath  : input folder path where starts imagePath
-        outputPath : LMDB output path
+        inputPath  : input_train folder path where starts imagePath
+        outputPath : LMDB train_data path
         gtFile     : list of image path and label
         checkValid : if true, check the validity of every image
     """
     os.makedirs(outputPath, exist_ok=True)
-    env = lmdb.open(outputPath, map_size=1099511627776)
+    env = lmdb.open(outputPath, map_size=1073741824)
     cache = {}
     cnt = 1
 
-    with open(gtFile, 'r', encoding='utf-8') as data:
+    with open(gtFile, 'r') as data:
         datalist = data.readlines()
 
     nSamples = len(datalist)
     for i in range(nSamples):
-        imagePath, label = datalist[i].strip('\n').split('\t')
+        imagePath, label = datalist[i].strip('\n').split('.png')
+        imagePath += '.png'
         imagePath = os.path.join(inputPath, imagePath)
 
         # # only use alphanumeric data

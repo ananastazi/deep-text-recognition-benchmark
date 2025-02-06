@@ -10,12 +10,12 @@ class TPS_SpatialTransformerNetwork(nn.Module):
 
     def __init__(self, F, I_size, I_r_size, I_channel_num=1):
         """ Based on RARE TPS
-        input:
+        input_train:
             batch_I: Batch Input Image [batch_size x I_channel_num x I_height x I_width]
-            I_size : (height, width) of the input image I
+            I_size : (height, width) of the input_train image I
             I_r_size : (height, width) of the rectified image I_r
-            I_channel_num : the number of channels of the input image I
-        output:
+            I_channel_num : the number of channels of the input_train image I
+        train_data:
             batch_I_r: rectified image [batch_size x I_channel_num x I_r_height x I_r_width]
         """
         super(TPS_SpatialTransformerNetwork, self).__init__()
@@ -74,8 +74,8 @@ class LocalizationNetwork(nn.Module):
 
     def forward(self, batch_I):
         """
-        input:     batch_I : Batch Input Image [batch_size x I_channel_num x I_height x I_width]
-        output:    batch_C_prime : Predicted coordinates of fiducial points for input batch [batch_size x F x 2]
+        input_train:     batch_I : Batch Input Image [batch_size x I_channel_num x I_height x I_width]
+        train_data:    batch_C_prime : Predicted coordinates of fiducial points for input_train batch [batch_size x F x 2]
         """
         batch_size = batch_I.size(0)
         features = self.conv(batch_I).view(batch_size, -1)

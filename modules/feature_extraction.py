@@ -79,7 +79,7 @@ class GRCL(nn.Module):
         self.GRCL = nn.Sequential(*self.GRCL)
 
     def forward(self, input):
-        """ The input of GRCL is consistant over time t, which is denoted by u(0)
+        """ The input_train of GRCL is consistant over time t, which is denoted by u(0)
         thus wgf_u / wf_u is also consistant over time t.
         """
         wgf_u = self.wgf_u(input)

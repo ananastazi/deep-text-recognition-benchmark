@@ -18,11 +18,11 @@ class CTCLabelConverter(object):
 
     def encode(self, text, batch_max_length=25):
         """convert text-label into text-index.
-        input:
+        input_train:
             text: text labels of each image. [batch_size]
             batch_max_length: max length of text label in the batch. 25 by default
 
-        output:
+        train_data:
             text: text index for CTCLoss. [batch_size, batch_max_length]
             length: length of each text. [batch_size]
         """
@@ -68,9 +68,9 @@ class CTCLabelConverterForBaiduWarpctc(object):
 
     def encode(self, text, batch_max_length=25):
         """convert text-label into text-index.
-        input:
+        input_train:
             text: text labels of each image. [batch_size]
-        output:
+        train_data:
             text: concatenated text index for CTCLoss.
                     [sum(text_lengths)] = [text_index_0 + text_index_1 + ... + text_index_(n - 1)]
             length: length of each text. [batch_size]
@@ -116,14 +116,14 @@ class AttnLabelConverter(object):
 
     def encode(self, text, batch_max_length=25):
         """ convert text-label into text-index.
-        input:
+        input_train:
             text: text labels of each image. [batch_size]
             batch_max_length: max length of text label in the batch. 25 by default
 
-        output:
-            text : the input of attention decoder. [batch_size x (max_length+2)] +1 for [GO] token and +1 for [s] token.
+        train_data:
+            text : the input_train of attention decoder. [batch_size x (max_length+2)] +1 for [GO] token and +1 for [s] token.
                 text[:, 0] is [GO] token and text is padded with [GO] token after [s] token.
-            length : the length of output of attention decoder, which count [s] token also. [3, 7, ....] [batch_size]
+            length : the length of train_data of attention decoder, which count [s] token also. [3, 7, ....] [batch_size]
         """
         length = [len(s) + 1 for s in text]  # +1 for [s] at end of sentence.
         # batch_max_length = max(length) # this is not allowed for multi-gpu setting
